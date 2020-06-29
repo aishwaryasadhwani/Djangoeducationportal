@@ -1,0 +1,27 @@
+
+{% extends 'portalapp/base.html' %}
+<style media="screen">
+  #id_name{
+    display:none;
+  }
+</style>
+{% load crispy_forms_tags %}
+{% block base%}
+<center>
+<h3>Add A new class </h3>
+</center>
+<div class="row justify-content-center">
+  <div class="col-lg-4">
+    <form method="post">
+
+      {{obj | crispy }}
+      {% csrf_token %}
+      <input type="submit" name="" class="btn btn-info" value="Submit">
+    </form>
+  </div>
+
+</div>
+
+
+
+{% endblock %}

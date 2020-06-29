@@ -1,0 +1,30 @@
+{% extends 'portalapp/base.html' %}
+{% load static %}
+{% block base %}
+{% if obj %}
+<div class="span9" id="sufal" style="">
+                  <div class="content">
+                      <div class="module">
+                        {% for i in obj %}
+                        <div class="span9" style="color:white;margin:10px;">
+
+<button class="btn  btn-lg" style="">{{i.name}}</button>
+{% for sub in i.subjects_set.all %}
+<ul style="list-type:none;display:inline">
+  <button class="btn btn-primary" style="border-radius:50%;width:100px;height:100px;">{{sub.subjectname}}<hr>{{sub.marks}}</button>
+</ul>
+{%endfor%}
+</div>
+{% endfor %}
+<div class="span9 " style="text-align:center;">
+							<a href='/addsubject'><button class="btn btn-danger btn-lg" style="border-radius:50%;width:120px;height:150px;"><i class="fa fa-plus"  style="color:#333;"></i><hr> Add Subject</button></a>
+							</div>
+                        </div>
+                    </div>
+                    <!--/.content-->
+                </div>
+                <!--/.span9-->
+
+{% endif %}
+
+{% endblock%}

@@ -1,0 +1,49 @@
+{% extends 'portalapp/base.html' %}
+{% load static %}
+{% block base %}
+<style media="screen">
+  #sufal{
+    height:70px;
+    width:200px;
+    color:black;
+    <!-- overflow:hidden; -->
+  }
+
+  .btn-box-row{
+    border:5px solid white;
+  }
+</style>
+{% if obj %}
+<div class="span9" style="float:right;">
+
+								<center><a href="/addclass" class="btn-box span3" style="background:none;">
+									<button class="btn btn-warning btn-lg" style="border-radius:50%;width:120px;height:120px;"><i class="fa fa-plus"  style="color:#333;"></i>
+									<hr style="margin:2px;">Add New</button>
+								</a></center>
+
+
+</div>
+
+  {% for i in obj %}
+<div class="span9" id="sufal" >
+					<div class="content">
+					<div class="btn-controls" >
+					<div class="btn-box-row row-fluid" style="display:block">
+
+										<a href="#" class="btn-box big span3" style="margin-left:0px;margin-right:10px;display:inline"><img src="{%static 'icons/class.png'%}" style="width:55px;height;50px;float:left"><b style="color:black;"> {{i.name}}	</b>
+                                        <p class="text-muted" style="background:lightyellow; color:#555;margin-bottom:0px;">  <button class="btn btn-warning" style="width:30px;height:40px;border-radius:30px;color:#333;">0</button> STUDENTS</p>
+                                    </a>
+
+{% endfor %}
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+{% endif %}
+{% endblock %}

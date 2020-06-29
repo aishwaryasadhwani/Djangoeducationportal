@@ -1,0 +1,29 @@
+{% extends 'portalapp/base.html' %}
+{% load static %}
+{% block base %}
+<form method="post">
+<input type="number" name="search" value="">
+<button type="submit" class="btn btn-success">
+    <i class="fa fa-search"></i>
+</button>
+{% csrf_token%}
+</form>
+<br>
+        {% for i in obj %}
+								<div style="float:left;text-align:center;margin-top:20px;width:155px;line-height:10px;">
+								<img src="{% static 'images/student.png' %}" class="img-circle" style="width:60px;height:60px;">
+								<br><b style="font-size:11px;color:#333;">{{i.id}}</b><br><i style="font-size:11px;color:#555;">{{i.EmployeeName}}</i><br><br>
+
+                                <a href="/searchemp/{{i.id}}" class="btn btn-info"><i class="fa fa-search"></i></a>
+                                <a href="/updateemp/{{i.id}}" class="btn btn-success"><i class="fa fa-edit"></i></a>
+                                <a href="/deleteemp/{{i.id}}" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+								</div>
+        {% endfor %}
+        <a href="/createemp">
+								<button class="btn btn-info" style="float:left;text-align:center;margin-top:20px;width:105px;height:105px;border-radius:50%;">
+								<i class="fa fa-plus"></i><hr style="margin:2px;">Add New</button>
+								</a>
+
+
+
+{% endblock %}

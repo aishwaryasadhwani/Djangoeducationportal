@@ -1,0 +1,19 @@
+{% extends 'portalapp/base.html' %}
+{% load static %}
+{% block base %}
+<center>
+<div style="background-image:url('{%static 'images/background.jpg' %}'); height:595px; width:500px;"><br>
+<img src="{% static 'images/student.png' %}" class="img-circle" style="width:100px;height:100px;"><br>
+<h4>{{obj.StudentName}}</h4>
+<div class="" style="padding:-10%">
+  RegistrationId: <b>{{obj.RegistrtionNo}}</b><hr style="width:50%;height:0px;">
+  Class: <b>{{obj.Class}}</b><hr style="width:50%">
+  AdmissionDate: <b>{{obj.AdmissionDate}}</b><hr style="width:50%">
+  Account status: <b>Active</b><hr style="width:50%">
+  PortalURL: <b>http://student.eskooly.com</b><hr style="width:50%">
+  Username: <b>9198.eskooly.{{obj.RegistrtionNo}}</b><hr style="width:50%">
+  Password: <b>9198.eskooly.{{obj.RegistrtionNo}}</b><br><br>
+  <input type="submit" class="btn btn-info" name="" value="Print">
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'portalapp/base.html' %}
+{% block base %}
+<h4>Search Student For Admission Letter</h4>
+<form  method="post">
+  <input type="text" name="adminid" value="">
+  <input type="submit" class = "btn btn-info" name="" value="Search">
+{% csrf_token %}
+</form>
+
+
+{% endblock %}
