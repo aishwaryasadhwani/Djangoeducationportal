@@ -47,6 +47,9 @@ urlpatterns = [
     path('updateemp/<int:pk>',views.UpdateEmployee.as_view()),
     path('deleteemp/<int:pk>',views.DeleteEmployee),
     path('filter/<int:pk>',views.Filter),
+    path('addincome/',views.AddIncome),
+    path('addexpense/',views.AddExpense),
+    path('accountstate/',views.AccountStatement),
     # path('create/',views.Create.as_view())
 ]
 

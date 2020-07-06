@@ -1,12 +1,12 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Addclass,Subjects,Institute,Student,Employee
-from .forms import AddclassForm,SubjectForm,InstituteForm,StudentForm,EmployeeForm
+from .models import Addclass,Subjects,Institute,Student,Employee,AccountIncome,AccountExpense,Account
+from .forms import AddclassForm,SubjectForm,InstituteForm,StudentForm,EmployeeForm,AddIncomeForm,AddExpenseForm
 # from bootstrap_datepicker_plus import DateTimePickerInput
 from django.views.generic import UpdateView,CreateView
 from .filters import StudentFilter
-
+from django.db.models import Sum
 
 
 # Create your views here.
@@ -208,3 +208,49 @@ def FilterEmp(request):
 def Filter(request,pk):
     obj = Employee.objects.get(id=pk)
     return render(request,'portalapp/filteremp.html',{'obj':obj})
+
+def AddIncome(request):
+    obj = AddIncomeForm()
+    if request.method == 'POST':
+        addform = AddIncomeForm(request.POST)
+        if addform.is_valid():
+            addform.save(commit=True)
+            return HttpResponseRedirect('/dashboard')
+    return render(request,'portalapp/addincome.html',{'obj':obj})
+
+
+def AddExpense(request):
+    obj = AddExpenseForm()
+    if request.method == 'POST':
+        addform = AddExpenseForm(request.POST)
+        if addform.is_valid():
+            addform.save(commit=True)
+            return HttpResponseRedirect('/dashboard')
+    return render(request,'portalapp/addexpense.html',{'obj':obj})
+
+def AccountStatement(request):
+    obj_income = AccountIncome.objects.all()
+    obj_expense = AccountExpense.objects.all()
+
+    if len(obj_expense) > 0 and len(obj_income) > 0 :
+            sum_credit = list(AccountIncome.objects.aggregate(Sum('IncomeAmount')).values())[0]
+            sum_debt = list(AccountExpense.objects.aggregate(Sum('ExpenseAmount')).values())[0]
+            net = sum_credit - sum_debt
+
+    elif len(obj_income)>0:
+        sum_credit = list(AccountIncome.objects.aggregate(Sum('IncomeAmount')).values())[0]
+        net = sum_credit - 0
+
+    elif len(obj_expense)>0:
+        sum_debt = list(AccountExpense.objects.aggregate(Sum('ExpenseAmount')).values())[0]
+        net = 0 - sum_debt
+
+    else:
+        net = 0
+
+    return render(request,'portalapp/accountstate.html',{'obj_income':obj_income,'obj_expense':obj_expense,'net':net})
+
+
+def Accounts(request):
+    obj = Account.objects.all()
+    return render(request,'portalapp/accounts.html',{'obj':obj})

@@ -44,3 +44,20 @@ class Employee(models.Model):
     EmployeeType = models.CharField(max_length=255,choices= CHOICESTYPE,default='----Employee Type-------')
     MobileNo = models.IntegerField()
     MonthlySalary = models.FloatField()
+
+class AccountIncome(models.Model):
+    Month = models.DateField()
+    IncomeDescription = models.CharField(max_length=255)
+    IncomeAmount = models.IntegerField()
+
+class AccountExpense(models.Model):
+    Month = models.DateField()
+    ExpenseDescription = models.CharField(max_length=255)
+    ExpenseAmount = models.IntegerField()
+
+class Account(models.Model):
+    Month = models.DateField()
+    IncomeDescription = models.CharField(max_length=255, default='no description')
+    IncomeAmount = models.IntegerField(default=0)
+    ExpenseDescription = models.CharField(max_length=255, default='no description')
+    ExpenseAmount = models.IntegerField(default=0)

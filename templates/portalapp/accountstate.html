@@ -1,0 +1,112 @@
+{% extends 'portalapp/base.html' %}
+{% load crispy_forms_tags %}
+{% block base%}
+<style media="screen">
+  body
+  {
+      counter-reset: Count-Value;
+  }
+
+  tr td:first-child:before
+  {
+    counter-increment: Count-Value;
+    content: counter(Count-Value);
+  }
+</style>
+<script>
+  $(document).ready(function(){
+
+
+ $('table > tbody  > tr').each(function(index, tr) {
+    console.log(index);
+    console.log(tr);
+
+  
+    // if(index == 0){
+    //   var net2 = $("#getexpense").html()
+    //   var net1 = $("#getincome").html()
+    //   if (net2 === undefined){
+    //   var p = net1
+    //   console.log(p)
+    //   $("#show").html(p)
+    //   }
+    //   else {
+    //     p = net2
+    //     $("#show1").html(p)
+    //   }
+    //
+    // }
+    // else {
+    //   var net2 = $("#getexpense").html()
+    //   var net1 = $("#getincome").html()
+    //   alert(net1)
+    //   alert(net2)
+    //   var p = net1 -net2
+    //   alert(p)
+    //   $("#show").html(p)
+    //   $("#show1").html(p)
+    // }
+   });
+
+
+
+})
+</script>
+<table class="table" id="mytable">
+   <thead>
+     <tr>
+       <th>S.no</th>
+       <th>Date</th>
+       <th>Description</th>
+       <th>Debt</th>
+       <th>Credit</th>
+       <th>Net Balance</th>
+     </tr>
+   </thead>
+   <tbody>
+     <!-- <tr>
+ <td></td>
+ <td>{{obj1.Month}}</td>
+ <td>{{obj1.IncomeDescription}}</td>
+ <td>0</td>
+ <td id='getincome'>{{obj1.IncomeAmount}}</td>
+ <td id='show'></td>
+</tr> -->
+{%if obj_income%}
+       {% for i in obj_income %}
+     <tr>
+      <td></td>
+      <td>{{i.Month}}</td>
+      <td>{{i.IncomeDescription}}</td>
+      <td>0</td>
+      <td id='getincome'>{{i.IncomeAmount}}</td>
+      <td id='show'>{{net}}</td>
+    </tr>
+    {% endfor %}
+    {%endif%}
+      {%if obj_expense%}
+       {% for j in obj_expense %}
+
+   <tr>
+   <td></td>
+   <td>{{j.Month}}</td>
+   <td>{{j.ExpenseDescription}}</td>
+   <td id='getexpense'>{{j.ExpenseAmount}}</td>
+   <td>0</td>
+   <td id="show1">{{net}}</td>
+ </tr>
+ {% endfor %}
+{% endif %}
+
+ <td></td>
+ <td></td>
+ <td>Total</td>
+ <td id='getexpense'></td>
+ <td></td>
+ <td id="show1" style="color:red">{{net}}/- Net Profit</td>
+
+
+</tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'portalapp/base.html' %}
+{% load crispy_forms_tags %}
+{% block base%}
+<style media="screen">
+  body
+  {
+      counter-reset: Count-Value;
+  }
+  /* table
+  {
+      border-collapse: separate;
+  } */
+  tr td:first-child:before
+  {
+    counter-increment: Count-Value;
+    content: counter(Count-Value);
+  }
+</style>
+<table class="table" id="mytable">
+   <thead>
+     <tr>
+       <th>S.no</th>
+       <th>Date</th>
+       <th>Description</th>
+       <th>Debt</th>
+       <th>Credit</th>
+       <th>Net Balance</th>
+     </tr>
+   </thead>
+   <tbody>
+     {% if obj %}
+     {% for i in obj %}
+     <tr>
+      <td></td>
+      <td>{{i.Month}}</td>
+      <td>{{i.IncomeDescription}}</td>
+      <td>0</td>
+      <td id='getincome'>{{i.IncomeAmount | i.ExpenseAmount}}</td>
+      <td id='show'>{{net}}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+  <tr>
+   <td></td>
+   <td></td>
+   <td>No collection</td>
+   <td id='getexpense'>0/-</td>
+   <td>0/-</td>
+   <td id="show1">0/-</td>
+  </tr>
+      {% endif %}
+{% endblock %}
