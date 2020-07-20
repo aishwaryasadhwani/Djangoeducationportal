@@ -1,13 +1,14 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Addclass,Subjects,Institute,Student,Employee,AccountIncome,AccountExpense,Account
-from .forms import AddclassForm,SubjectForm,InstituteForm,StudentForm,EmployeeForm,AddIncomeForm,AddExpenseForm
+from .models import Addclass,Subjects,Institute,Student,Employee,AccountIncome,AccountExpense,Account,StudentAttendance,Attendance,EmployeeAttendance
+from .forms import AddclassForm,SubjectForm,InstituteForm,StudentForm,EmployeeForm,AddIncomeForm,AddExpenseForm,StudentAttendanceForm
 # from bootstrap_datepicker_plus import DateTimePickerInput
 from django.views.generic import UpdateView,CreateView
 from .filters import StudentFilter
 from django.db.models import Sum
-
+from django.http import JsonResponse
+import datetime
 
 # Create your views here.
 def dashboard(request):
@@ -254,3 +255,80 @@ def AccountStatement(request):
 def Accounts(request):
     obj = Account.objects.all()
     return render(request,'portalapp/accounts.html',{'obj':obj})
+
+def AllclassesAttendance(request):
+    allclass = Addclass.objects.all()
+    if request.method == 'POST' and 'search' in request.POST:
+        dropdown_val = request.POST.get('dropdownlist')
+        print("true")
+        print(dropdown_val)
+        return HttpResponseRedirect("/studentattendance/"+dropdown_val)
+    # elif request.method == 'POST' and 'update' in request.POST:
+    #     dropdown_val = request.POST.get('dropdownlist')
+    #     print("true")
+    #     print(dropdown_val)
+    #     return HttpResponseRedirect('/update/'+dropdown_val)
+
+    return render(request,'portalapp/allattendance.html',{'allclass':allclass})
+
+def AttendanceClass(request,pk):
+    allclass = Addclass.objects.get(id=pk)
+    mydict = {'allclass':allclass}
+    if request.method == 'POST':
+                name = request.POST['studentname']
+                id = request.POST['studentid']
+                classto = request.POST['classto']
+                val = request.POST['x']
+                print(classto)
+                print(name)
+                form = Attendance(Date=datetime.date.today(),Class=classto,StudentName=name,Status=val)
+                form.save()
+                print(val)
+                # ids.append(id)
+                # print(ids)
+                # print(ids)
+                # for i in ids:
+                #     if ids.count(i) == 1:
+                #         print(ids.count(i))
+                #         mydict.update({'msg':"Marked"})
+                #     else:
+                #         print("not working",ids.count(i))
+                #         mydict.update({'msg':''})
+    return render(request,'portalapp/studentattendance.html',context = mydict)
+
+def saveAttendance(request):
+    # if request.is_ajax():
+        if  request.method == 'POST':
+            name = request.POST.get('studentname')
+            classto = 'data science'
+            val = request.POST.get('x')
+            form = Attendance(Date=date,Class=classto,StudentName=name,Status=val)
+            form.save()
+            # return JsonResponse({"msg":"success"})
+
+def getAttendance(request):
+    obj = Attendance.objects.all()
+    return render(request,'portalapp/getstudentattendance.html',{'obj':obj})
+
+def employeeAttendance(request):
+    employee = Employee.objects.all()
+    if request.method == 'POST':
+        name = request.POST.get('empname')
+        id = request.POST.get('empid')
+        type = request.POST.get('emptype')
+        x = request.POST.get('x')
+        form = EmployeeAttendance(Date=datetime.date.today(),EmpId=id,EmployeeName=name,EmployeeType=type,Status=x )
+        form.save()
+    return render(request,'portalapp/employeeattendance.html',{'employee':employee})
+
+def getEmployeeReport(request):
+    obj = EmployeeAttendance.objects.all()
+    return render(request,'portalapp/getemployeereport.html',{'obj':obj})
+
+# def AttendanceClass(request):
+#     obj = StudentAttendanceForm()
+#     if request.method == 'POST':
+#         obj = StudentAttendanceForm(request.POST)
+#         obj.save()
+#         dict.update({'msg':" Class Added Successfully"})
+#     return render(request,'portalapp/studentattendance.html',{'obj':obj})

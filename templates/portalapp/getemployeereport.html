@@ -1,0 +1,54 @@
+{% extends 'portalapp/base.html' %}
+{% block base %}
+<!-- <script type="text/javascript">
+  $('.datepicker').datepicker({
+    inline: true;
+  });
+</script>
+<div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker" inline="true">
+  <input placeholder="Select date" type="text" id="example" class="form-control">
+  <i class="fas fa-calendar input-prefix"></i>
+</div> -->
+
+<h4>Employee Attendance Report</h4>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Date</th>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Status</th>
+
+    </tr>
+  </thead>
+  <div id="result" style='color:#f59e2c;font-size:20px;'>
+
+        </div>
+  <tbody>
+
+    {% if obj %}
+    {% for i in obj %}
+
+      <tr>
+
+        <td>{{i.EmpId}}</td>
+        <td>{{i.Date}}</td>
+        <td>{{i.EmployeeName}}</td>
+        <td>{{i.EmployeeType}}</td>
+        <td>{{i.Status}}</td>
+
+      </tr>
+
+      {% endfor %}
+    {% endif %}
+
+
+  </tbody>
+
+
+
+</table>
+
+{% endblock %}

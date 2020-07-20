@@ -1,0 +1,133 @@
+{% extends 'portalapp/base.html' %}
+{% block base %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<style>
+  .my1{
+    display:inline-block;
+    width:20px;
+    height:20px;
+    text-align:center;
+    pedding:6px 0;
+    font-size:12px;
+    line-height:1.428571429;
+    border-radius:80px;
+    transition:all 0.3s;
+    border:1px solid white;
+    margin-left:5px;
+  }
+
+  .present1:checked + label{
+    border:2px solid #3377cc;
+    background:#3377cc;
+  }
+  .leave1:checked + label{
+    border:2px solid #3377cc;
+    background:#3377cc;
+  }
+  .absent1:checked + label{
+    border:2px solid #3377cc;
+    background:#3377cc;
+  }
+
+</style>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <!-- <th>Date</th> -->
+      <th>Name</th>
+      <th>Employee Type </th>
+      <th>Attend</th>
+      <th>Mark/Update</th>
+    </tr>
+  </thead>
+  <div id="result" style='color:#f59e2c;font-size:20px;'>
+
+        </div>
+  <tbody>
+
+    {% if employee %}
+
+    {% for i in employee %}
+<form method="post" id="form">
+      <tr>
+        <td name = "empid" id="empid">{{i.id}}</td>
+        <input type="hidden" name="empid" value="{{i.id}}">
+        <!-- <td name = "date" id="date">2020-12-6</td> -->
+        <td name = "empname" id="empname">{{i.EmployeeName}}</td>
+        <input type="hidden" name="empname" value="{{i.EmployeeName}}">
+        <td name = "emptype" id="emptype">{{i.EmployeeType}}</td>
+        <input type="hidden" name="emptype" value="{{i.EmployeeType}}">
+        <td>
+          <input type="radio" name="x" id="present{{i.id}}" value="P">
+          <label for="present{{i.id}}">P</label>
+          <input type="radio" name="x" id="absent{{i.id}}" value="A">
+          <label for="absent{{i.id}}">A</label>
+          <input type="radio" name="x" id="leave{{i.id}}" value="L">
+          <label for="leave{{i.id}}">L</label>
+        </td>
+          <!-- <input type="submit" class="btn btn-danger" name="submit" value="A"> -->
+          <td>
+
+
+            {% csrf_token %}
+            <!-- {% if msg %}
+              <strong>{{msg}}</strong>
+            {% else %} -->
+              <input type="submit" id="submit" class="btn btn-danger" name="submit" value="Mark"><p id="demo"></p>
+              <!-- <button type="button" id="submit" onclick="myFunction()" class="btn btn-danger" name="submit" value="submit"><p id="demo"></p> -->
+            <!-- {% endif %} -->
+            <script type="text/javascript">
+
+              function myFunction(){
+                alert("heyyyyyyyyyyyyyyyyyy")
+                document.getElementById("demo").innerHTML = "Hello World";
+                document.getElementById("form{{student.id}}").submit()
+
+
+              }
+
+              // $(document).on('submit','#form',function(e){
+                // alert("submitted")
+              //  e.preventDefault();
+              //   $.ajax({
+              //     type:'POST',
+              //     url : '/studentattendance/{{allclass.id}}',
+              //     headers: {'X-CSRFToken': '{{ csrf_token }}'},
+              //     data : {
+              //       'studentname':$('#studentname').val(),
+              //       'x':$("input:radio[name=x]:checked").val();
+              //     },
+              //     success:function(){
+              //       alert("heyyyyyyyyyyyyyyyyyy")
+              //     }
+              //   })
+              // })
+
+            </script>
+
+
+              <!-- <button onclick="submitHandler()">Click me</button> -->
+
+          </td>
+
+
+
+
+      </tr>
+    </form>
+
+      {% endfor %}
+    {% endif %}
+
+
+  </tbody>
+
+
+
+</table>
+
+{% endblock %}

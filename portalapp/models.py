@@ -32,6 +32,9 @@ class Student(models.Model):
     DiscountFee = models.IntegerField()
     MobileNo = models.IntegerField()
 
+    def __str__(self):
+        return self.StudentName
+
 class Employee(models.Model):
     CHOICESTYPE = (
     ('----Employee Type-------','----Employee Type-------'),
@@ -61,3 +64,32 @@ class Account(models.Model):
     IncomeAmount = models.IntegerField(default=0)
     ExpenseDescription = models.CharField(max_length=255, default='no description')
     ExpenseAmount = models.IntegerField(default=0)
+
+class StudentAttendance(models.Model):
+    attendance_choices = (
+    ('present', 'P'),
+    ('absent', 'A'),
+    ('leave', 'L'),
+)
+    Date = models.DateField()
+    Class = models.ForeignKey(Addclass,on_delete=models.CASCADE)
+    StudentName = models.ForeignKey(Student,on_delete=models.CASCADE)
+    Attendance = models.CharField(max_length=20,choices=attendance_choices,)
+
+    # def __str__(self):
+    #     return self.StudentName
+class Attendance(models.Model):
+    Date = models.DateField()
+    Class = models.CharField(max_length=40)
+    StudentName = models.CharField(max_length=255)
+    Status = models.CharField(max_length=20)
+
+class EmployeeAttendance(models.Model):
+    Date = models.DateField()
+    EmpId = models.IntegerField()
+    EmployeeName = models.CharField(max_length=255)
+    EmployeeType = models.CharField(max_length=200)
+    Status = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.EmployeeName

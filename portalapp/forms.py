@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import modelformset_factory
-from portalapp.models import Addclass,Subjects,Institute,Student,Employee,AccountIncome,AccountExpense,Account
+from portalapp.models import Addclass,Subjects,Institute,Student,Employee,AccountIncome,AccountExpense,Account,StudentAttendance
 from functools import partial
  # from bootstrap_datepicker_plus import DatePickerInput
 
@@ -53,4 +53,12 @@ class AddExpenseForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'Month': DateInput(),
+        }
+
+class StudentAttendanceForm(forms.ModelForm):
+    class Meta:
+        model = StudentAttendance
+        fields = '__all__'
+        widgets = {
+        'Date':DateInput(),
         }

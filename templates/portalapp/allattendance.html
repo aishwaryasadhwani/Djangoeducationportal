@@ -1,0 +1,29 @@
+{% extends 'portalapp/base.html' %}
+{% block base %}
+<center>
+<h4>Mark Attendance As A Whole Class</h4><br>
+<form method="post">
+    {% csrf_token %}
+  <div class="row justify-content-center">
+    <div class="col-lg-4">
+      {% if allclass %}
+      <select name="dropdownlist">
+      <option disabled="true" selected>--Select Class--</option>
+      {%  for i in allclass %}
+      <option value="{{i.id}}">{{ i }}</option>
+      {% endfor %}
+      {% endif %}
+    </select>
+    
+    <br><br><hr>
+
+      <input type="submit" name="search" class="btn btn-danger" value="Search">
+    </div>
+
+  </div>
+
+
+    </form>
+    </center>
+
+{% endblock %}

@@ -50,6 +50,12 @@ urlpatterns = [
     path('addincome/',views.AddIncome),
     path('addexpense/',views.AddExpense),
     path('accountstate/',views.AccountStatement),
+    path('allattendance/',views.AllclassesAttendance),
+    path('studentattendance/<int:pk>',views.AttendanceClass),
+    path('saveAttendance/',views.saveAttendance),
+    path('getstudentattendance/',views.getAttendance),
+    path('employeeAttendance/',views.employeeAttendance),
+    path('getemployeereport/',views.getEmployeeReport),
     # path('create/',views.Create.as_view())
 ]
 

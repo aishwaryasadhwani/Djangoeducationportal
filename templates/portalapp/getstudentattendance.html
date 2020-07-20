@@ -1,0 +1,42 @@
+{% extends 'portalapp/base.html' %}
+{% block base %}
+<h4>Student Attendance</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <!-- <th>Id</th> -->
+      <th>Date</th>
+      <th>Name</th>
+      <th>Course</th>
+      <th>Status</th>
+
+    </tr>
+  </thead>
+  <div id="result" style='color:#f59e2c;font-size:20px;'>
+
+        </div>
+  <tbody>
+
+    {% if obj %}
+    {% for i in obj %}
+
+      <tr>
+
+        <td>{{i.Date}}</td>
+        <td>{{i.StudentName}}</td>
+        <td>{{i.Class}}</td>
+        <td>{{i.Status}}</td>
+
+      </tr>
+
+      {% endfor %}
+    {% endif %}
+
+
+  </tbody>
+
+
+
+</table>
+
+{% endblock %}

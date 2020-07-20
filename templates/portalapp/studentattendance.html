@@ -1,0 +1,107 @@
+{% extends 'portalapp/base.html' %}
+{% block base %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+<style>
+  .my1{
+    display:inline-block;
+    width:20px;
+    height:20px;
+    text-align:center;
+    pedding:6px 0;
+    font-size:12px;
+    line-height:1.428571429;
+    border-radius:80px;
+    transition:all 0.3s;
+    border:1px solid white;
+    margin-left:5px;
+  }
+
+  .present1:checked + label{
+    border:2px solid #3377cc;
+    background:#3377cc;
+  }
+  .leave1:checked + label{
+    border:2px solid #3377cc;
+    background:#3377cc;
+  }
+  .absent1:checked + label{
+    border:2px solid #3377cc;
+    background:#3377cc;
+  }
+
+</style>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <!-- <th>Date</th> -->
+      <th>Name</th>
+      <th>Course</th>
+      <th>Attend</th>
+      <th>Mark/Update</th>
+    </tr>
+  </thead>
+  <div id="result" style='color:#f59e2c;font-size:20px;'>
+
+        </div>
+  <tbody>
+
+    {% if allclass %}
+    {{allclass.name}}<br>
+    {% for student in allclass.student_set.all %}
+<form method="post" id="form{{student.id}}">
+      <tr>
+        <td name = "studentid" id="studentid">{{student.id}}</td>
+        <input type="hidden" name="studentid" value="{{student.id}}">
+        <!-- <td name = "date" id="date">2020-12-6</td> -->
+        <td name = "studentname" id="studentname">{{student.StudentName}}</td>
+        <input type="hidden" name="studentname" value="{{student.StudentName}}">
+        <td name = "classto" id="classto">{{allclass.name}}</td>
+        <input type="hidden" name="classto" value="{{allclass.name}}">
+        <td>
+          <input type="radio" name="x" id="present{{student.id}}" value="P">
+          <label for="present{{student.id}}">P</label>
+          <input type="radio" name="x" id="absent{{student.id}}" value="A">
+          <label for="absent{{student.id}}">A</label>
+          <input type="radio" name="x" id="leave{{student.id}}" value="L">
+          <label for="leave{{student.id}}">L</label>
+        </td>
+          <!-- <input type="submit" class="btn btn-danger" name="submit" value="A"> -->
+          <td>
+
+
+            {% csrf_token %}
+            <!-- {% if msg %}
+              <strong>{{msg}}</strong>
+            {% else %} -->
+              <input type="submit" id="submit" onclick="myFunction()" class="btn btn-danger" name="submit" value="Mark"><p id="demo"></p>
+              <!-- <button type="button" id="submit" onclick="myFunction()" class="btn btn-danger" name="submit" value="submit"><p id="demo"></p> -->
+            <!-- {% endif %} -->
+
+
+
+
+              <!-- <button onclick="submitHandler()">Click me</button> -->
+
+          </td>
+
+
+
+
+      </tr>
+    </form>
+
+      {% endfor %}
+    {% endif %}
+
+
+  </tbody>
+
+
+
+</table>
+
+{% endblock %}
