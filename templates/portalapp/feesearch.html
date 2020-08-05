@@ -1,0 +1,12 @@
+{% extends 'portalapp/base.html' %}
+{% block base %}
+<center><h4>Enter Registration Number For Fee Status</h4><hr>
+<form  method="post">
+  <input type="text" name="search" value=""><br><br>
+  <input type="submit" class = "btn btn-info" name="create" value="Create">
+  <input type="submit" class = "btn btn-warning" name="update" value="Update Fee">
+{% csrf_token %}
+</form>
+</center>
+
+{% endblock %}

@@ -31,6 +31,7 @@ class Student(models.Model):
     AdmissionDate = models.DateField()
     DiscountFee = models.IntegerField()
     MobileNo = models.IntegerField()
+    Email = models.EmailField(max_length=254,default='')
 
     def __str__(self):
         return self.StudentName
@@ -93,3 +94,31 @@ class EmployeeAttendance(models.Model):
 
     def __str__(self):
         return self.EmployeeName
+
+class Fee(models.Model):
+    FeeDate = models.DateField()
+    RegistrtionId = models.IntegerField()
+    StudentName = models.CharField(max_length=255)
+    StudentClass = models.ForeignKey(Addclass,on_delete=models.CASCADE)
+    MonthlyFee = models.IntegerField()
+    AdmissionFee =models.IntegerField()
+    RegistrtionFee = models.IntegerField()
+    PreviousBalance = models.IntegerField()
+    DiscountFee = models.IntegerField()
+    Total = models.IntegerField()
+    Deposit = models.IntegerField()
+    DueBalance = models.IntegerField()
+
+class FeeSubmission(models.Model):
+    FeeDate = models.DateField()
+    RegistrtionId = models.IntegerField()
+    StudentName = models.CharField(max_length=255)
+    StudentClass = models.CharField(max_length=255)
+    MonthlyFee = models.IntegerField()
+    AdmissionFee =models.IntegerField()
+    RegistrtionFee = models.IntegerField()
+    PreviousBalance = models.IntegerField()
+    DiscountFee = models.IntegerField()
+    Total = models.IntegerField()
+    Deposit = models.IntegerField()
+    DueBalance = models.IntegerField()

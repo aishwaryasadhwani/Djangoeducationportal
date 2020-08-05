@@ -1,0 +1,69 @@
+{% extends 'portalapp/base.html' %}
+<style media="screen">
+  #id_name{
+    display:none;
+  }
+</style>
+{% load crispy_forms_tags %}
+{% block base%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    alert("hello")
+    $("#id_DiscountFee").blur(function(){
+      var monthfee = $("#id_MonthlyFee").val()
+      var admission = $("#id_AdmissionFee").val()
+      var registration = $("#id_RegistrtionFee").val()
+      var previous = $("#id_PreviousBalance").val()
+      var discount = $("#id_DiscountFee").val()
+      var total = parseInt(monthfee) + parseInt(admission) + parseInt(registration) + parseInt(previous)
+      var totalafter = total - parseInt(total * discount/100)
+      $("#id_Total").val(totalafter)
+    })
+    $("#id_MonthlyFee").blur(function(){
+      var monthfee = $("#id_MonthlyFee").val()
+      $("#id_Total").val(parseInt(monthfee))
+    })
+    $("#id_AdmissionFee").blur(function(){
+      var monthfee = $("#id_MonthlyFee").val()
+      var admission = $("#id_AdmissionFee").val()
+      var total = parseInt(monthfee) + parseInt(admission)
+      $("#id_Total").val(total)
+    })
+
+
+    $("#id_RegistrtionFee").blur(function(){
+      var monthfee = $("#id_MonthlyFee").val()
+      var admission = $("#id_AdmissionFee").val()
+      var registration = $("#id_RegistrtionFee").val()
+      var total = parseInt(monthfee) + parseInt(admission) + parseInt(registration)
+      $("#id_Total").val(total)
+    })
+
+    $("#id_Deposit").blur(function(){
+      var totalfinal = $("#id_Total").val()
+      var deposit = $("#id_Deposit").val()
+      var due = parseInt(totalfinal) - parseInt(deposit)
+      $("#id_DueBalance").val(due)
+    })
+
+  });
+</script>
+<center>
+<h3>Submit/update fees </h3>
+</center>
+<div class="row justify-content-center">
+  <div class="col-lg-4">
+    <form method="post">
+
+      {{form | crispy }}
+      {% csrf_token %}
+      <input type="submit" name="" class="btn btn-info" value="Submit">
+    </form>
+  </div>
+
+</div>
+
+
+
+{% endblock %}

@@ -1,14 +1,16 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
-from .models import Addclass,Subjects,Institute,Student,Employee,AccountIncome,AccountExpense,Account,StudentAttendance,Attendance,EmployeeAttendance
-from .forms import AddclassForm,SubjectForm,InstituteForm,StudentForm,EmployeeForm,AddIncomeForm,AddExpenseForm,StudentAttendanceForm
+from .models import Addclass,Subjects,Institute,Student,Employee,AccountIncome,AccountExpense,Account,StudentAttendance,Attendance,EmployeeAttendance,Fee,FeeSubmission
+from .forms import AddclassForm,SubjectForm,InstituteForm,StudentForm,EmployeeForm,AddIncomeForm,AddExpenseForm,StudentAttendanceForm,FeeSubmitForm
 # from bootstrap_datepicker_plus import DateTimePickerInput
-from django.views.generic import UpdateView,CreateView
+from django.views.generic import UpdateView,CreateView,ListView
 from .filters import StudentFilter
 from django.db.models import Sum
 from django.http import JsonResponse
 import datetime
+from django.core.mail import send_mail
+from django.conf import settings
 
 # Create your views here.
 def dashboard(request):
@@ -332,3 +334,64 @@ def getEmployeeReport(request):
 #         obj.save()
 #         dict.update({'msg':" Class Added Successfully"})
 #     return render(request,'portalapp/studentattendance.html',{'obj':obj})
+
+def FeeSearch(request):
+    if request.method == 'POST' and 'create' in request.POST:
+        val = request.POST.get('search')
+        obj = Student.objects.get(RegistrtionNo=val)
+        return HttpResponseRedirect('/feesubmit/'+val)
+
+    elif request.method == 'POST' and 'update' in request.POST:
+        val = request.POST.get('search')
+        obj = Student.objects.get(RegistrtionNo=val)
+        return HttpResponseRedirect('/feeupdate/'+val)
+    return render(request,'portalapp/feesearch.html')
+
+
+def FeeSubmit(request,pk):
+    obj = Student.objects.get(RegistrtionNo=pk)
+    form = FeeSubmitForm(initial={'RegistrtionId':obj.RegistrtionNo ,'StudentName':obj.StudentName,'StudentClass':obj.Class,'AdmissionFee':0,'RegistrtionFee':0,'PreviousBalance':0,'DiscountFee':0,'DueBalance':0})
+    if request.method == 'POST':
+        feeform = FeeSubmitForm(request.POST)
+        if feeform.is_valid():
+            feeform.save(commit=True)
+            return HttpResponseRedirect('/dashboard')
+
+    return render(request,'portalapp/feesubmission_form.html',{'form':form})
+
+# class FeeCreate(CreateView):
+#     model = Fee
+#     fields = '__all__'
+#
+class FeeUpdate(UpdateView):
+    model = FeeSubmission
+    fields = '__all__'
+
+    def get_success_url(self):
+            return reverse('dashboard')
+
+class ViewFeeStatus(ListView):
+    model = FeeSubmission
+    def get_queryset(self):
+        return FeeSubmission.objects.filter(DueBalance__gt = 0)
+
+def SendMail(request,pk):
+    obj = Student.objects.get(RegistrtionNo=pk)
+    subject = "Fee Alert from Edsystango !"
+    message = "Hope you are doing well,"+ obj.StudentName + "You have your fees due.You can avail our services by paying in.This is an auto generated mail.For any query,write to admin@gmail.com"
+    recipient_list =[obj.Email]
+    email_from = settings.EMAIL_HOST_USER
+    send_mail(subject,message,email_from,recipient_list)
+    return HttpResponseRedirect('/dashboard')
+
+def FeeSearchReceipt(request):
+    if request.method == 'POST' and 'create' in request.POST:
+        val = request.POST.get('search')
+        obj = FeeSubmission.objects.get(RegistrtionId=val)
+        return HttpResponseRedirect('/printfee/'+val)
+    return render(request,'portalapp/feereceiptsearch.html')
+
+
+def PrintFee(request,pk):
+    obj = FeeSubmission.objects.get(RegistrtionId=pk)
+    return render(request,'portalapp/printfee.html',{'obj':obj})

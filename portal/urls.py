@@ -21,7 +21,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('dashboard/', views.dashboard),
+    path('dashboard/', views.dashboard,name='dashboard'),
     path('login/', views.login),
     path('accounts/',include('django.contrib.auth.urls')),
     path('addclass/',views.Addclasses),
@@ -56,7 +56,14 @@ urlpatterns = [
     path('getstudentattendance/',views.getAttendance),
     path('employeeAttendance/',views.employeeAttendance),
     path('getemployeereport/',views.getEmployeeReport),
-    # path('create/',views.Create.as_view())
+    path('feesearch/',views.FeeSearch),
+    path('feesubmit/<int:pk>',views.FeeSubmit),
+    path('feeupdate/<int:pk>',views.FeeUpdate.as_view()),
+    path('feelist/',views.ViewFeeStatus.as_view()),
+    path('sendmail/<int:pk>',views.SendMail),
+    path('feereceiptsearch/',views.FeeSearchReceipt),
+    path('printfee/<int:pk>',views.PrintFee),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root = settings.MEDIA_ROOT)
